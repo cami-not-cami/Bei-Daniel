@@ -123,7 +123,7 @@ AllowsTransparency="False"
             </Menu>
 
         </StackPanel>
-        <Frame Name="MainFrame" Visibility="Hidden" Grid.Row="1" Grid.Column="1" Content="Frame" Margin="235,0,-3,0"/>
+        <Frame Name="MainFrame" Visibility="Visible" Grid.Row="1" Grid.Column="1" Margin="235,0,-3,0"/>
 
 
     </Grid>

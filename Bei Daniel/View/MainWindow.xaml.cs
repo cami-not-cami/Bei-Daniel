@@ -1,18 +1,10 @@
 ﻿using Bei_Daniel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Bei_Daniel.Utils;
+using Bei_Daniel.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Bei_Daniel
 {
@@ -21,19 +13,13 @@ namespace Bei_Daniel
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
-            string products = string.Empty;
             InitializeComponent();
-            using (var db = new AppDbContext())
-            {
-                var users = db.Products.ToList();
-                foreach (var u in users)
-                {
-                    products += u.Name + "\n";
-                }
-               
-            }
+            RestaurantOverviews page = new RestaurantOverviews();
+            MainFrame.Content =page;
+            
         }
 
         private void MaxBtn_Click(object sender, RoutedEventArgs e)
