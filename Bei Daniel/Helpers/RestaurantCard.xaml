@@ -8,6 +8,13 @@
              d:DesignHeight="100" d:DesignWidth="600">
 
     <Border Background="WhiteSmoke" CornerRadius="20" Padding="10" SnapsToDevicePixels="True">
+        <Border.InputBindings>
+            <!-- Left mouse click anywhere on the card -->
+            <MouseBinding Gesture="LeftClick"
+                          Command="{Binding NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                          CommandParameter="{Binding Restaurant, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </Border.InputBindings>
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -29,20 +36,14 @@
                            Foreground="Gray"/>
             </StackPanel>
 
-            <!-- Monthly Bill Count -->
-            <Label Grid.Column="1" Grid.Row="0" 
-                   Content="{Binding BillCount}" 
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center"/>
-
-            <!-- Arrow Button -->
+            <!-- Arrow Button (kept for visual, still works if clicked) -->
             <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
                     Content="▶" 
                     Background="{x:Null}" 
                     BorderBrush="{x:Null}"
                     FontSize="28" 
-                      Command="{Binding NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-        CommandParameter="{Binding Restaurant, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                    Command="{Binding NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding Restaurant, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                     VerticalAlignment="Center"/>
         </Grid>
     </Border>

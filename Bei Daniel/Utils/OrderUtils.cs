@@ -32,5 +32,18 @@ namespace Bei_Daniel.Utils
             context.Orders.Add(order);
             context.SaveChangesAsync();
         }
+
+        public  static List<string> QUANTITY_TYPES = new List<string> { "Stk.", "Tasse", "Kg", "g", "Bd.", "Topf." };
+        public static  double GetOrderTotalWith10Percent(long restaurantId, AppDbContext context)
+        {
+            double total = 0;
+            ObservableCollection<Order> orders = GetAllUnsolvedOrders(restaurantId, context);
+
+            foreach (Order order in orders)
+            {
+                total += order.ProductPrice * order.Amount;
+            }
+            return  total + total * 0.1;
+        }
     }
 }
