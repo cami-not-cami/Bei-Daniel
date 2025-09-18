@@ -24,6 +24,7 @@ namespace Bei_Daniel.Utils
             foreach (var item in context.Orders.Where(o => o.RestaurantId == restaurantId && !o.Solved).ToList())
             {
                 order.Add(item);
+           
             }
             return order;
         }
@@ -34,7 +35,7 @@ namespace Bei_Daniel.Utils
         }
 
         public  static List<string> QUANTITY_TYPES = new List<string> { "Stk.", "Tasse", "Kg", "g", "Bd.", "Topf." };
-        public static  double GetOrderTotalWith10Percent(long restaurantId, AppDbContext context)
+        public static  double GetOrderTotalWith10Percent(long restaurantId)
         {
             double total = 0;
             ObservableCollection<Order> orders = GetAllUnsolvedOrders(restaurantId, context);

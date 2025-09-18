@@ -167,7 +167,7 @@ namespace Bei_Daniel.ViewModel
             order.Solved = false;
             Orders.Add(order);
             OrderUtils.AddOrder(order, _appDbContext);
-            PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId, _appDbContext);
+            PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
 
         }
     }
