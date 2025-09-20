@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Bei_Daniel.Models;
+using Bei_Daniel.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,13 @@ namespace Bei_Daniel
     /// </summary>
     public partial class RestaurantOverviews : Page
     {
+
         public RestaurantOverviews()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
+
+
         }
     }
 }

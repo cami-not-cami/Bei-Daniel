@@ -1,0 +1,148 @@
+﻿<Page x:Class="Bei_Daniel.View.Pages.ItemsOverview"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:viewmodel="clr-namespace:Bei_Daniel.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ItemsOverview">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=" auto" />
+            <RowDefinition Height="*" />
+            <!-- DataGrid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Input Section -->
+        </Grid.RowDefinitions>
+       
+
+        <!-- Page Header with Restaurant Name -->
+        <TextBlock Text="{Binding RestaurantName}" 
+                   FontSize="25" FontWeight="Bold"
+                   Foreground="White"
+                   Margin="0,0,430,10"
+                   Grid.Row="0"/>
+        <TextBlock Text="{Binding PageTotal,UpdateSourceTrigger=PropertyChanged}" 
+                   FontSize="25" FontWeight="Bold" 
+                   Foreground="White"
+                   Margin="600,0,0,15"
+                   Grid.Row="0"/>
+        <!-- Orders DataGrid -->
+        <DataGrid x:Name="OrdersDataGrid"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="None"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  CanUserDeleteRows="False"
+                  CanUserResizeRows="False"
+                  RowHeight="40"
+                  AlternatingRowBackground="#F5F5F5"
+                  Background="White"
+                  BorderThickness="0"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  HorizontalGridLinesBrush="#E0E0E0"
+                  VerticalGridLinesBrush="#E0E0E0"
+                  FontSize="14"
+                  Padding="5"
+                  ItemsSource="{Binding Orders}"
+                  RowHeaderWidth="0"
+                  Grid.Row="1"
+                  Margin="0,0,0,10">
+
+            <!-- Header Style -->
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#2C3E50"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="15"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <!-- Row Style -->
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="#333"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#DCEAF7"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#3498DB"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <!-- Columns -->
+            <DataGrid.Columns>
+                <DataGridTextColumn  Header="Item Name" Binding="{Binding Product.Name}" Width="2*"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding ProductPrice, StringFormat=C,ConverterCulture='de-DE'}" Width="*"/>
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Amount}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Input Section -->
+        <Border Grid.Row="2" Background="#F9F9F9" CornerRadius="10" Padding="15" BorderBrush="#E0E0E0" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
+
+                <!-- Product ComboBox -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Product" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ComboBox Width="200"
+                              SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
+                           Text="{Binding ProductInput, UpdateSourceTrigger=LostFocus}"
+                              IsEditable="True"
+                              IsTextSearchEnabled="True"
+                              ItemsSource="{Binding ProductsName}" />
+                </StackPanel>
+
+                <!-- Quantity -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Quantity" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ComboBox Width="100"
+                              ItemsSource="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Background="{x:Null}" BorderBrush="{x:Null}"
+                         ></ComboBox>
+                </StackPanel>
+
+                
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Price" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Width="100"
+                     Text="{Binding Price, StringFormat=C,ConverterCulture='de-DE'}" />
+                </StackPanel>
+
+              
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Amount" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Width="100"
+                           
+                             Text="{Binding Amount}" />
+                </StackPanel>
+
+                
+                <Button Content="Add" 
+                        Width="100" Height="35"
+                        Margin="20,0,0,0"
+                        Background="#3498DB" 
+                        Foreground="White" 
+                        FontWeight="SemiBold"
+                        Command="{Binding AddOrderCommand}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
