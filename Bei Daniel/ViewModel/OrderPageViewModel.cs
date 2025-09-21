@@ -12,11 +12,14 @@ namespace Bei_Daniel.ViewModel
 {
     class OrderPageViewModel:BaseClass
     {
+        #region Properties
+      
         private double _price;
         public double Price
         {
             get { return _price; }
             set { _price = value; 
+               
             OnPropertyChanged(nameof(Price));
             }
         }
@@ -130,7 +133,10 @@ namespace Bei_Daniel.ViewModel
                 OnPropertyChanged(nameof(PageTotal));
             }
         }
+   
 
+     
+        #endregion
         public ICommand AddOrderCommand { get; set; }
         public OrderPageViewModel(int restaurantId)
         {
@@ -140,10 +146,11 @@ namespace Bei_Daniel.ViewModel
             Quantity = OrderUtils.QUANTITY_TYPES;
           AddOrderCommand = new RelayCommand(AddOrder);
             RestaurantName = _appDbContext.Restaurants.Where(p => p.Id == _restaurantId)
-                  .Select(p => p.Name)
-                  .FirstOrDefault();
+                .Select(p => p.Name)
+                .FirstOrDefault();
 
-          
+            PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
+            
 
 
         }
@@ -155,6 +162,7 @@ namespace Bei_Daniel.ViewModel
      .ToList();
 
             Orders = new ObservableCollection<Order>(orders);
+            CalculateLines();
         }
         private void AddOrder()
         {
@@ -165,10 +173,28 @@ namespace Bei_Daniel.ViewModel
             order.ProductPrice = Price;
             order.Data = DateTime.Now;
             order.Solved = false;
-            Orders.Add(order);
-            OrderUtils.AddOrder(order, _appDbContext);
-            PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
+           
+            if (order.ProductId != 0 && Amount != 0 && Price != 0)
+            {
+                Orders.Add(order);
+                OrderUtils.AddOrder(order, _appDbContext);
+                PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
+              CalculateLines();
 
+            }
+            else
+            {
+                MessageBox.Show("Produkt, Quantität und Preis darf nicht leer sein.");
+                return;
+            }    
         }
+        private void CalculateLines()
+        {
+            foreach (var item in Orders)
+            {
+                item.InLineTotal = item.ProductPrice * item.Amount;
+            }
+        }
+      
     }
 }
