@@ -1,5 +1,6 @@
 ﻿using Bei_Daniel.Models;
 using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bei_Daniel.Utils
 {
@@ -16,15 +17,14 @@ namespace Bei_Daniel.Utils
             }
             return order;
         }
-
         public static ObservableCollection<Order> GetAllUnsolvedOrders(long restaurantId, AppDbContext context)
         {
             ObservableCollection<Order> order = new ObservableCollection<Order>();
 
-            foreach (var item in context.Orders.Where(o => o.RestaurantId == restaurantId && !o.Solved).ToList())
+            foreach (var item in context.Orders.Include(x => x.Product).Where(o => o.RestaurantId == restaurantId && !o.Solved).ToList())
             {
                 order.Add(item);
-           
+
             }
             return order;
         }
@@ -33,9 +33,19 @@ namespace Bei_Daniel.Utils
             context.Orders.Add(order);
             context.SaveChangesAsync();
         }
+        public static void SolveOrder(long orderId, AppDbContext context)
+        {
+            var order = context.Orders.Find(orderId);
+            if (order != null)
+            {
+                order.Solved = true;
+                context.SaveChangesAsync();
+            }
+        }
 
-        public  static List<string> QUANTITY_TYPES = new List<string> { "Stk.", "Tasse", "Kg", "g", "Bd.", "Topf." };
-        public static  double GetOrderTotalWith10Percent(long restaurantId)
+
+        public static List<string> QUANTITY_TYPES = new List<string> { "Stk.", "Tasse", "Kg", "g", "Bd.", "Topf." };
+        public static double GetOrderTotalWith10Percent(long restaurantId)
         {
             double total = 0;
             ObservableCollection<Order> orders = GetAllUnsolvedOrders(restaurantId, context);
@@ -44,7 +54,8 @@ namespace Bei_Daniel.Utils
             {
                 total += order.ProductPrice * order.Amount;
             }
-            return  total + total * 0.1;
+            return total + total * 0.1;
         }
+
     }
 }

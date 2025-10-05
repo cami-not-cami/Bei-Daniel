@@ -9,6 +9,7 @@
         Height="800"
         Width="1200"
         WindowStyle="SingleBorderWindow"
+        Icon="/Helpers/Icons/SmallSquareLogoJpg.jpg"
 AllowsTransparency="False"
             
         WindowStartupLocation="CenterScreen">
@@ -16,13 +17,8 @@ AllowsTransparency="False"
     <!--// Background Grid //-->
 
     <Grid Background="#23262B" ShowGridLines="True">
-
-        
-
-        <!--// Menu Panel //-->
-
         <StackPanel Background="#2E333A"
-                    Width="230"
+                    Width="215"
                     Orientation="Vertical"
                     HorizontalAlignment="Left">
 
@@ -45,6 +41,7 @@ AllowsTransparency="False"
                            FontSize="16"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center" />
+                
 
             </Grid>
 
@@ -67,7 +64,7 @@ AllowsTransparency="False"
                 <!--// Main Menu - Home //-->
 
                 <MenuItem Header="Home"
-                          Template="{StaticResource Menu_Template}">
+                          Template="{StaticResource Menu_Template}" Click="MenuItem_Click">
 
                     <!--<MenuItem.Icon>
 
@@ -80,17 +77,17 @@ AllowsTransparency="False"
 
                 <!--// Main Menu - History //-->
 
-                <MenuItem Header="History"
+                <!--<MenuItem Header="History"
                           Template="{StaticResource Menu_Template}">
 
-                    <!--<MenuItem.Icon>
+                    --><!--<MenuItem.Icon>
 
                             <Image Source="Assets/img_history.png"
                                Stretch="None" />
 
-                        </MenuItem.Icon>-->
+                        </MenuItem.Icon>--><!--
 
-                </MenuItem>
+                </MenuItem>-->
 
                 <!--// Main Menu - Settings //-->
 

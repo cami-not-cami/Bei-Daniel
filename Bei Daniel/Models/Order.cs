@@ -20,6 +20,7 @@ public partial class Order
 
     public bool Solved { get; set; }
     [NotMapped] public double InLineTotal { get; set; }
+    //[NotMapped] public string CompletedAmount { get; set; } = string.Empty;
 
     public virtual Product Product { get; set; } = null!;
 
