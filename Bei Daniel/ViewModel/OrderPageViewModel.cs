@@ -202,6 +202,8 @@ namespace Bei_Daniel.ViewModel
             var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
             var document = new ReceiptDocument
             {
+                CustomerAddress = RestaurantUtils.GetRestaurantAddressById(_restaurantId, _appDbContext),
+                CustomerName = RestaurantUtils.GetRestaurantNameById(_restaurantId, _appDbContext),
                 InvoiceNr = invoiceNumber,
                 Products = products,
                 Netto = OrderUtils.GetOrderTotal(_restaurantId),

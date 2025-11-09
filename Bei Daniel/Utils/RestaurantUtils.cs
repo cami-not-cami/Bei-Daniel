@@ -96,5 +96,14 @@ namespace Bei_Daniel.Utils
 
             return filePath;
         }
+        public static string GetRestaurantAddressById(long id, AppDbContext context)
+        {
+            var restaurant = context.Restaurants.Find(id);
+            if (restaurant != null)
+            {
+                return restaurant.Address;
+            }
+            return null;
+        }
     }
 }
