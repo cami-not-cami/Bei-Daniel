@@ -41,5 +41,11 @@ namespace Bei_Daniel
         {
             Close();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            RestaurantOverviews page = new RestaurantOverviews();
+            MainFrame.Content = page;
+        }
     }
 }

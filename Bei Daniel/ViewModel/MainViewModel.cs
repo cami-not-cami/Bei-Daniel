@@ -3,14 +3,7 @@ using Bei_Daniel.Models;
 using Bei_Daniel.Utils;
 using Bei_Daniel.View.Pages;
 using DinnerBoxd.Helpers;
-using Microsoft.EntityFrameworkCore;
-
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,7 +13,7 @@ namespace Bei_Daniel.ViewModel
     {
         public static AppDbContext _appDbContext;
         public ICommand NavigateToItemsCommand { get; }
-        public ObservableCollection<string> AvailableTypes { get; set; }  
+        public ObservableCollection<string> AvailableTypes { get; set; }
 
         private string _selectedType;
         public string SelectedType
@@ -48,10 +41,8 @@ namespace Bei_Daniel.ViewModel
             _appDbContext = new AppDbContext();
             Restaurants = RestaurantUtils.GetRestaurants(_appDbContext);
             // Fill ComboBox with distinct types from DB
-            AvailableTypes = new ObservableCollection<string>(_appDbContext.Restaurants
-                .Select(r => r.Type)
-                .Distinct()
-                .ToList());
+            AvailableTypes = new ObservableCollection<string>(
+                _appDbContext.Restaurants.Select(r => r.Type).Distinct().ToList());
             NavigateToItemsCommand = new RelayCommand<Restaurant>(NavigateToItems);
 
             // Default load (first type or all)
@@ -71,7 +62,7 @@ namespace Bei_Daniel.ViewModel
 
         private void NavigateToItems(Restaurant restaurant)
         {
-        
+
             // Get the current navigation service
             var navService = Application.Current.Windows.OfType<MainWindow>()
                              .First().MainFrame.NavigationService;
@@ -79,7 +70,7 @@ namespace Bei_Daniel.ViewModel
             if (navService != null)
             {
                 navService.Navigate(new ItemsOverview((int)restaurant.Id));
-              
+
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bei_Daniel.Models;
 
@@ -18,6 +19,8 @@ public partial class Order
     public DateTime Data { get; set; }
 
     public bool Solved { get; set; }
+    [NotMapped] public double InLineTotal { get; set; }
+    //[NotMapped] public string CompletedAmount { get; set; } = string.Empty;
 
     public virtual Product Product { get; set; } = null!;
 

@@ -10,13 +10,10 @@
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height=" auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-            <!-- DataGrid -->
             <RowDefinition Height="Auto"/>
-            <!-- Input Section -->
         </Grid.RowDefinitions>
-       
 
         <!-- Page Header with Restaurant Name -->
         <TextBlock Text="{Binding RestaurantName}" 
@@ -24,11 +21,19 @@
                    Foreground="White"
                    Margin="0,0,430,10"
                    Grid.Row="0"/>
-        <TextBlock Text="{Binding PageTotal,UpdateSourceTrigger=PropertyChanged}" 
-                   FontSize="25" FontWeight="Bold" 
-                   Foreground="White"
-                   Margin="600,0,0,15"
-                   Grid.Row="0"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="600,0,0,15">
+            <TextBlock Text="Gesamt: " 
+                       FontSize="20" 
+                       FontWeight="Bold" 
+                       Foreground="White"
+                       Margin="0,0,5,0"/>
+            <TextBlock Text="{Binding PageTotal, StringFormat=C,ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" 
+                       FontSize="25" 
+                       FontWeight="Bold" 
+                       Foreground="White"/>
+        </StackPanel>
+
         <!-- Orders DataGrid -->
         <DataGrid x:Name="OrdersDataGrid"
                   AutoGenerateColumns="False"
@@ -70,6 +75,7 @@
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -89,59 +95,88 @@
 
             <!-- Columns -->
             <DataGrid.Columns>
-                <DataGridTextColumn  Header="Item Name" Binding="{Binding Product.Name}" Width="2*"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding ProductPrice, StringFormat=C,ConverterCulture='de-DE'}" Width="*"/>
-                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Amount}" Width="*"/>
+                <DataGridTextColumn Header="Produkt" Binding="{Binding Product.Name}" Width="2*"/>
+                <DataGridTextColumn Header="Preis" Binding="{Binding ProductPrice, StringFormat=C,ConverterCulture='de-DE'}" Width="*"/>
+                <DataGridTextColumn Header="Anzahl" Binding="{Binding Amount}" Width="*"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding InLineTotal, StringFormat=C,ConverterCulture='de-DE'}" Width="*"/>
+                <DataGridTemplateColumn Header="Löschen" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="🗑"
+                                    Width="35"
+                                    Height="30"
+                                    Background="#E74C3C"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    ToolTip="Löschen"
+                                    Command="{Binding DataContext.DeleteOrderCommand, 
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- Input Section -->
         <Border Grid.Row="2" Background="#F9F9F9" CornerRadius="10" Padding="15" BorderBrush="#E0E0E0" BorderThickness="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
-
                 <!-- Product ComboBox -->
                 <StackPanel Margin="10,0">
-                    <TextBlock Text="Product" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Produkt" FontWeight="SemiBold" Margin="0,0,0,5"/>
                     <ComboBox Width="200"
                               SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
-                           Text="{Binding ProductInput, UpdateSourceTrigger=LostFocus}"
+                              Text="{Binding ProductInput, UpdateSourceTrigger=LostFocus}"
                               IsEditable="True"
                               IsTextSearchEnabled="True"
                               ItemsSource="{Binding ProductsName}" />
                 </StackPanel>
 
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Anzahl" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Width="100" Text="{Binding Amount}" />
+                </StackPanel>
+
                 <!-- Quantity -->
                 <StackPanel Margin="10,0">
-                    <TextBlock Text="Quantity" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Einheit" FontWeight="SemiBold" Margin="0,0,0,5"/>
                     <ComboBox Width="100"
-                              ItemsSource="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Background="{x:Null}" BorderBrush="{x:Null}"
-                         ></ComboBox>
+                              SelectedItem="{Binding SelectedQT, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" 
+                              Background="{x:Null}" BorderBrush="{x:Null}" />
                 </StackPanel>
 
-                
                 <StackPanel Margin="10,0">
-                    <TextBlock Text="Price" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Preis" FontWeight="SemiBold" Margin="0,0,0,5"/>
                     <TextBox Width="100"
-                     Text="{Binding Price, StringFormat=C,ConverterCulture='de-DE'}" />
+                             Text="{Binding Price, StringFormat=C,ConverterCulture='de-DE'}" />
                 </StackPanel>
 
-              
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Amount" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <TextBox Width="100"
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                    <Button Content="Speichern" 
+                            Width="100" Height="35"
+                            Background="#3498DB" 
+                            Foreground="White" 
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
                            
-                             Text="{Binding Amount}" />
-                </StackPanel>
+                            Command="{Binding AddOrderCommand}" />
 
-                
-                <Button Content="Add" 
-                        Width="100" Height="35"
-                        Margin="20,0,0,0"
-                        Background="#3498DB" 
-                        Foreground="White" 
-                        FontWeight="SemiBold"
-                        Command="{Binding AddOrderCommand}" />
+                    <Button Content="🖨 Drucken" 
+                            Width="120" Height="35"
+                            Margin="10,0,0,0"
+                            Background="#2ECC71" 
+                            Foreground="White" 
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                           
+                            Cursor="Hand"
+                            ToolTip="Seite drucken"
+                            Command="{Binding PrintOrder}" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

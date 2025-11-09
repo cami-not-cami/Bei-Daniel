@@ -10,13 +10,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BeiDanielLogo.jpg" />
+    <None Remove="Helpers\Icons\SmallSquareLogoJpg.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Helpers\Icons\SmallSquareLogoJpg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="WPFTextBoxAutoComplete" Version="1.0.5" />
+    <PackageReference Include="PDFsharp-MigraDoc-gdi" Version="6.2.2" />
+    <PackageReference Include="QuestPDF" Version="2025.7.2" />
   </ItemGroup>
 
 </Project>
