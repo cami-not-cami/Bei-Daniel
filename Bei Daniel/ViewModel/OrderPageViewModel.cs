@@ -222,7 +222,7 @@ namespace Bei_Daniel.ViewModel
 
                 var document = new ReceiptDocument
                 {
-                    LogoPath = @"C:\path\to\logo.png",
+                 
                     Products = products,
                     Netto = 724.60,
                 };
