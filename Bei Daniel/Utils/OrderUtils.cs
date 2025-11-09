@@ -57,5 +57,18 @@ namespace Bei_Daniel.Utils
             return total + total * 0.1;
         }
 
+    
+      public static double GetOrderTotal(long restaurantId)
+        {
+            double total = 0;
+            ObservableCollection<Order> orders = GetAllUnsolvedOrders(restaurantId, context);
+
+            foreach (Order order in orders)
+            {
+                total += order.ProductPrice * order.Amount;
+            }
+            return total;
+        }
+
     }
 }

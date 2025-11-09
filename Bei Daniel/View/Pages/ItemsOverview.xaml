@@ -175,7 +175,7 @@
                            
                             Cursor="Hand"
                             ToolTip="Seite drucken"
-                            Command="{Binding PrintCommand}" />
+                            Command="{Binding PrintOrder}" />
                 </StackPanel>
             </StackPanel>
         </Border>

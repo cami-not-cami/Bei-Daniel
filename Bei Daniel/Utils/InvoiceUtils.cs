@@ -26,13 +26,13 @@ namespace Bei_Daniel.Utils
             public string CompanyPhone { get; set; } = "+436643842241";
             public string CustomerName { get; set; } = "testpf";
             public string CompanyNumber { get; set; } = "ATU 67897537";
-            public string DeliveryDate {  get; set; }
+            public string DeliveryDate { get; set; }
             public string InvoiceNr { get; set; }
             public List<Product> Products { get; set; }
             public double Netto { get; set; }
             public double MwSt => Math.Round(Netto * 0.10, 2);
             public double Brutto => Netto + MwSt;
-            public string LogoPath { get; set; } 
+            public string LogoPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BeiDanielLogo.jpg");
 
             public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
 
@@ -67,6 +67,7 @@ namespace Bei_Daniel.Utils
                     {
                         col.Item().AlignRight().Text(CompanyName).Bold().FontSize(14);
                         col.Item().AlignRight().Text(CompanyAddress).FontSize(10);
+                        col.Item().AlignRight().Text(InvoiceNr).FontSize(10);
                         col.Item().AlignRight().Text($"Datum: {DateTime.Now:dd.MM.yyyy}").FontSize(10);
                     });
                 });
@@ -125,6 +126,39 @@ namespace Bei_Daniel.Utils
                         .FontSize(12);
                 });
             }
+        }
+
+        public static string GetInvoiceNumber()
+        {
+            var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+            var invoiceFile = Path.Combine(folder, "invoice_counter.txt");
+            string invoiceNr = "1";
+            if (File.Exists(invoiceFile))
+            {
+                invoiceNr = File.ReadAllText(invoiceFile).Trim();
+            }
+            return invoiceNr;
+
+        }
+
+        public static void IncrementInvoiceNumber()
+        {
+            string currentInvoiceNr = GetInvoiceNumber();
+            if (int.TryParse(currentInvoiceNr, out int invoiceNumber))
+            {
+                invoiceNumber++;
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+                var invoiceFile = Path.Combine(folder, "invoice_counter.txt");
+                File.WriteAllText(invoiceFile, invoiceNumber.ToString());
+
+            }
+        }
+        public static void etInvoiceNumber(int number)
+        {
+            var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+            var invoiceFile = Path.Combine(folder, "invoice_counter.txt");
+            File.WriteAllText(invoiceFile, number.ToString());
+
         }
     }
 }

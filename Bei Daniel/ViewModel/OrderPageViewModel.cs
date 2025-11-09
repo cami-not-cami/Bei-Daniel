@@ -151,6 +151,9 @@ namespace Bei_Daniel.ViewModel
         public ICommand AddOrderCommand { get; set; }
         public ICommand DeleteOrderCommand { get; set; }
 
+        public ICommand PrintOrder { get; set; }
+
+
         public OrderPageViewModel(int restaurantId)
         {
             _restaurantId = restaurantId;
@@ -158,6 +161,7 @@ namespace Bei_Daniel.ViewModel
             ProductsName = _appDbContext.Products.Select(p => p.Name).ToList();
             Quantity = OrderUtils.QUANTITY_TYPES;
             AddOrderCommand = new RelayCommand(AddOrder);
+            PrintOrder = new RelayCommand(PrintOrderCommand);
             RestaurantName = _appDbContext
                 .Restaurants.Where(p => p.Id == _restaurantId)
                 .Select(p => p.Name)
@@ -174,6 +178,40 @@ namespace Bei_Daniel.ViewModel
 
             Orders = new ObservableCollection<Order>(orders);
             CalculateLines();
+        }
+
+
+
+
+        private void PrintOrderCommand()
+        {
+            QuestPDF.Settings.License = LicenseType.Community;
+            List<Order> orders = OrderUtils.GetAllUnsolvedOrders(_restaurantId, _appDbContext).ToList();
+
+            List<InvoiceUtils.Product> products = new List<InvoiceUtils.Product>();
+            foreach (var order in orders)
+            {
+                InvoiceUtils.Product product = new InvoiceUtils.Product();
+                product.ProductName = order.Product.Name;
+                product.Quantity = order.Amount.ToString() + " " + SelectedQT;
+                product.UnitPrice = order.ProductPrice;
+                product.Total = order.ProductPrice * order.Amount;
+                products.Add(product);
+            }
+            var filePath = RestaurantUtils.generateRestaurantFilePath(_restaurantId, _appDbContext);
+            var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
+            var document = new ReceiptDocument
+            {
+                InvoiceNr = invoiceNumber,
+                Products = products,
+                Netto = OrderUtils.GetOrderTotal(_restaurantId),
+            };
+            document.GeneratePdf(filePath);
+            RestaurantUtils.SolveResturantOrders(_restaurantId, _appDbContext);
+            Orders.Clear();
+            PageTotal = 0;
+            InvoiceUtils.IncrementInvoiceNumber();
+            MessageBox.Show($"Receipt saved to: {filePath}");
         }
 
         private void AddOrder()
@@ -193,45 +231,6 @@ namespace Bei_Daniel.ViewModel
                 OrderUtils.AddOrder(order, _appDbContext);
                 PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
                 CalculateLines();
-                QuestPDF.Settings.License = LicenseType.Community;
-
-                var products = new List<InvoiceUtils.Product>
-                {
-                    new()
-                    {
-                        Quantity = "8 KG",
-                        ProductName = "Champignons",
-                        UnitPrice = 3.60,
-                        Total = 28.80,
-                    },
-                    new()
-                    {
-                        Quantity = "72 STK",
-                        ProductName = "Salat",
-                        UnitPrice = 1.20,
-                        Total = 86.40,
-                    },
-                    new()
-                    {
-                        Quantity = "325.5 KG",
-                        ProductName = "Kartoffel",
-                        UnitPrice = 0.90,
-                        Total = 292.50,
-                    },
-                };
-
-                var document = new ReceiptDocument
-                {
-                    LogoPath = @"C:\path\to\logo.png",
-                    Products = products,
-                    Netto = 724.60,
-                };
-
-                var filePath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    "receipt.pdf"
-                );
-                document.GeneratePdf(filePath);
             }
             else
             {

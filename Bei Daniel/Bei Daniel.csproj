@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BeiDanielLogo.jpg" />
     <None Remove="Helpers\Icons\SmallSquareLogoJpg.jpg" />
   </ItemGroup>
 
@@ -26,6 +27,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="PDFsharp-MigraDoc-gdi" Version="6.2.2" />
     <PackageReference Include="QuestPDF" Version="2025.7.2" />
   </ItemGroup>
 
