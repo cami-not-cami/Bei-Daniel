@@ -1,5 +1,6 @@
 ﻿using Bei_Daniel.Models;
 using Bei_Daniel.Utils;
+using Bei_Daniel.View.Pages;
 using Bei_Daniel.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace Bei_Daniel
         {
             InitializeComponent();
             RestaurantOverviews page = new RestaurantOverviews();
-            MainFrame.Content =page;
+            MainFrame.Content = page;
             
         }
 
@@ -46,6 +47,14 @@ namespace Bei_Daniel
         {
             RestaurantOverviews page = new RestaurantOverviews();
             MainFrame.Content = page;
+        }
+
+        //Settings
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            SettingsOverview page = new SettingsOverview();
+            MainFrame.Content = page;
+
         }
     }
 }

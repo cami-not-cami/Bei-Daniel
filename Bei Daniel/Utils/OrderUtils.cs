@@ -17,6 +17,17 @@ namespace Bei_Daniel.Utils
             }
             return order;
         }
+
+        public static ObservableCollection<Order> GetOrders(long restaurantId, DateOnly startDate, DateOnly endDate)
+        {
+            ObservableCollection<Order> order = new ObservableCollection<Order>();
+            foreach (var item in context.Orders.Include(x => x.Product).Where(o => o.RestaurantId == restaurantId && DateOnly.FromDateTime(o.Data) >= startDate && DateOnly.FromDateTime(o.Data) <= endDate).ToList())
+            {
+                order.Add(item);
+            }
+            return order;
+        }
+
         public static ObservableCollection<Order> GetAllUnsolvedOrders(long restaurantId, AppDbContext context)
         {
             ObservableCollection<Order> order = new ObservableCollection<Order>();
@@ -58,10 +69,21 @@ namespace Bei_Daniel.Utils
         }
 
     
-      public static double GetOrderTotal(long restaurantId)
+      public static double GetOrderTotalUnsolved(long restaurantId)
         {
             double total = 0;
             ObservableCollection<Order> orders = GetAllUnsolvedOrders(restaurantId, context);
+
+            foreach (Order order in orders)
+            {
+                total += order.ProductPrice * order.Amount;
+            }
+            return total;
+        }
+        public static double GetOrderTotal(long restaurantId, DateOnly startDate, DateOnly endDate)
+        {
+            double total = 0;
+            ObservableCollection<Order> orders = GetOrders(restaurantId,  startDate, endDate);
 
             foreach (Order order in orders)
             {
