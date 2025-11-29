@@ -92,7 +92,7 @@ AllowsTransparency="False"
                 <!--// Main Menu - Settings //-->
 
                 <MenuItem Header="Settings"
-                          Template="{StaticResource Menu_SubMenu_Template}">
+                          Template="{StaticResource Menu_SubMenu_Template}" Click="MenuItem_Click_1">
 
                     <!--<MenuItem.Icon>
 
