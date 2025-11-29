@@ -188,10 +188,10 @@ namespace Bei_Daniel.ViewModel
             QuestPDF.Settings.License = LicenseType.Community;
             List<Order> orders = OrderUtils.GetAllUnsolvedOrders(_restaurantId, _appDbContext).ToList();
 
-            List<Order> allOrders = OrderUtils.GetOrders(_restaurantId, DateOnly.MinValue, DateOnly.FromDateTime(DateTime.Now)).ToList();
+            //List<Order> allOrders = OrderUtils.GetOrders(_restaurantId).ToList();
 
             List<InvoiceUtils.Product> products = new List<InvoiceUtils.Product>();
-            foreach (var order in allOrders)
+            foreach (var order in orders)
             {
                 InvoiceUtils.Product product = new InvoiceUtils.Product();
                 product.ProductName = order.Product.Name;
@@ -209,7 +209,7 @@ namespace Bei_Daniel.ViewModel
                 CustomerName = RestaurantUtils.GetRestaurantNameById(_restaurantId, _appDbContext),
                 InvoiceNr = invoiceNumber,
                 Products = products,
-                Netto = OrderUtils.GetOrderTotal(_restaurantId, DateOnly.MinValue, DateOnly.FromDateTime(DateTime.Now)),
+                Netto = OrderUtils.GetOrderTotal(_restaurantId),
             };
             document.GeneratePdf(filePath);
             RestaurantUtils.SolveResturantOrders(_restaurantId, _appDbContext);
