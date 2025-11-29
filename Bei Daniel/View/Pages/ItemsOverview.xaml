@@ -142,22 +142,22 @@
                 <!-- Quantity -->
                 <StackPanel Margin="10,0">
                     <TextBlock Text="Einheit" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox Width="100"
+                    <ComboBox Width="100" 
                               SelectedItem="{Binding SelectedQT, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" 
                               Background="{x:Null}" BorderBrush="{x:Null}" />
                 </StackPanel>
 
                 <StackPanel Margin="10,0">
-                    <TextBlock Text="Preis" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Preis €" FontWeight="SemiBold" Margin="0,0,0,5"/>
                     <TextBox Width="100"
-                             Text="{Binding Price, StringFormat=C,ConverterCulture='de-DE'}" />
+                             Text="{Binding Price,ConverterCulture='de-DE'}"  />
                 </StackPanel>
 
                 <!-- Buttons -->
-                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                    <Button Content="Speichern" 
-                            Width="100" Height="35"
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <Button Content="+" 
+                            Width="50" Height="35"
                             Background="#3498DB" 
                             Foreground="White" 
                             FontWeight="SemiBold"

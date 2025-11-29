@@ -21,32 +21,39 @@ namespace Bei_Daniel.Utils
         public class ReceiptDocument : IDocument
         {
 
-public string CompanyName { get; set; } = "EINZELUNT. D. IVANOV. ";
+            public string CompanyName { get; set; } = "EINZELUNT. D. IVANOV. ";
             public string CompanyAddress { get; set; } = "Wien,21. BRÜNNERSTR. 47-48";
             public string CompanyPhone { get; set; } = "+436643842241";
             public string CustomerAddress { get; set; }
             public string CustomerName { get; set; }
             public string CompanyNumber { get; set; } = "ATU 67897537";
             public string Iban = "AT61 1500 0042 1108 4845";
-            public string DeliveryDate {  get; set; }
+            public string DeliveryDate { get; set; }
             public string InvoiceNr { get; set; }
             public List<Product> Products { get; set; }
             public double Netto { get; set; }
             public double MwSt => Math.Round(Netto * 0.10, 2);
             public double Brutto => Netto + MwSt;
-            public string LogoPath { get; set; } = Path.Combine(AppContext.BaseDirectory, "Assets", "BeiDanielLogo-removed.png");
+            public string LogoPath { get; set; } = Path.Combine(AppContext.BaseDirectory, "Helpers", "Icons", "BeiDanielLogo.png");
 
             public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-
             public void Compose(IDocumentContainer container)
             {
                 container.Page(page =>
                 {
                     page.Margin(40);
 
-                    page.Header().Element(ComposeHeader);
-                    page.Content().Element(ComposeBody);
-                    page.Footer().Element(ComposeFooter);
+                    // Header only on the first page
+                    page.Header().ShowOnce().Element(ComposeHeader);
+
+                    page.Content().Element(container =>
+                    {
+                        container.Column(col =>
+                        {
+                            col.Item().Element(ComposeBody);
+                            col.Item().PaddingTop(25).Element(ComposeFooter);
+                        });
+                    });
                 });
             }
             void ComposeHeader(IContainer container)
@@ -61,7 +68,7 @@ public string CompanyName { get; set; } = "EINZELUNT. D. IVANOV. ";
                         else
                             col.Item().Text(CompanyName).Bold().FontSize(18);
 
-                      
+
                     });
 
                     // Right: Company Info and Invoice Data
@@ -207,16 +214,14 @@ public string CompanyName { get; set; } = "EINZELUNT. D. IVANOV. ";
             {
                 container.PaddingTop(20).Column(col =>
                 {
-                   
 
-                    // Green thank-you bar (keep as is)
                     col.Item().PaddingTop(15)
                         .Background(Colors.Green.Lighten2)
                         .Padding(10)
                         .AlignCenter()
                         .Text("Vielen Dank für Ihre Bestellung!")
                         .Bold()
-                        .FontSize(12);
+                        .FontSize(14);
                 });
             }
         }

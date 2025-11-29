@@ -9,7 +9,7 @@
         Height="800"
         Width="1200"
         WindowStyle="SingleBorderWindow"
-        Icon="/Helpers/Icons/SmallSquareLogoJpg.jpg"
+        Icon="/Helpers/Icons/BeiDanielLogo.png"
 AllowsTransparency="False"
             
         WindowStartupLocation="CenterScreen">

@@ -202,6 +202,7 @@ namespace Bei_Daniel.ViewModel
             var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
             var document = new ReceiptDocument
             {
+                DeliveryDate = "12/12/2024",
                 CustomerAddress = RestaurantUtils.GetRestaurantAddressById(_restaurantId, _appDbContext),
                 CustomerName = RestaurantUtils.GetRestaurantNameById(_restaurantId, _appDbContext),
                 InvoiceNr = invoiceNumber,
