@@ -41,6 +41,9 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("data");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.ProductPrice).HasColumnName("product_price");
+            entity.Property(e => e.ProductQuantityType)
+                .HasMaxLength(25)
+                .HasColumnName("product_quantity_type");
             entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
             entity.Property(e => e.Solved).HasColumnName("solved");
 

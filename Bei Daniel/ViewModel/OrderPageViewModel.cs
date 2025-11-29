@@ -60,8 +60,8 @@ namespace Bei_Daniel.ViewModel
             }
         }
 
-        private DateTime? _selectedDate;
-        public DateTime? SelectedDate
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
         {
             get => _selectedDate;
             set
@@ -74,6 +74,7 @@ namespace Bei_Daniel.ViewModel
 
                 // Optional: if you want to refresh lines/totals when date changes, uncomment:
                 // CalculateLines();
+                
             }
         }
         private int _restaurantId;
@@ -222,7 +223,7 @@ namespace Bei_Daniel.ViewModel
             var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
             var document = new ReceiptDocument
             {
-                DeliveryDate = SelectedDate.ToString(),
+                DeliveryDate = DateOnly.FromDateTime(SelectedDate).ToShortDateString(),
                 CustomerAddress = RestaurantUtils.GetRestaurantAddressById(_restaurantId, _appDbContext),
                 CustomerName = RestaurantUtils.GetRestaurantNameById(_restaurantId, _appDbContext),
                 InvoiceNr = invoiceNumber,
