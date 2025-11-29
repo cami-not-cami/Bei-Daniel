@@ -6,34 +6,90 @@
       xmlns:local="clr-namespace:Bei_Daniel.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="SettingsOverview">
+      Title="SettingsOverview"
+      Background="#F8F9FA">
 
-    <Grid Margin="20">
+    <Page.Resources>
+        <Style x:Key="SettingsButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3366FF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="15,10,15,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0055DD"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#003AAA"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Invoice Number Settings" 
-                   FontSize="18" 
-                   FontWeight="SemiBold" 
-                   Margin="0,0,0,10"
-                   Foreground="White"
-                   />
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" Padding="30,25,30,25" BorderThickness="0,0,0,1" BorderBrush="#E8ECEF">
+            <TextBlock Text="⚙ Einstellungen" 
+                       FontSize="28" 
+                       FontWeight="SemiBold" 
+                       Foreground="#1A1F36"/>
+        </Border>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Invoice Number:" 
-                       VerticalAlignment="Center" 
-                       Margin="0,0,10,0"
-                       Foreground="White"/>
-            <TextBox Text="{Binding InvoiceNumberInput, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="200" 
-                     VerticalAlignment="Center"/>
-            <Button Content="Set Invoice Number" 
-                    Command="{Binding SetInvoiceStartNumber}" 
-                    Margin="10,0,0,0" 
-                    Padding="10,5"/>
-        </StackPanel>
+        <!-- Settings Content -->
+        <Border Grid.Row="1" Margin="30,20,30,30" Background="White" Padding="25,20,25,20" BorderThickness="1" BorderBrush="#E8ECEF">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+
+                    <!-- Settings Section -->
+                    <Border Padding="15,15,15,15" Background="#F3F5F8" BorderThickness="1" BorderBrush="#E0E8F0" Margin="0,0,0,15">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Rechnungsnummer-Einstellungen" 
+                                       FontSize="14" 
+                                       FontWeight="Bold" 
+                                       Foreground="#1A1F36"
+                                       Margin="0,0,0,12"/>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <StackPanel Width="220" Margin="0,0,15,0">
+                                    <TextBlock Text="Rechnungsnummer:" 
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="#5A6B7D"
+                                               Margin="0,0,0,6"/>
+                                    <TextBox Text="{Binding InvoiceNumberInput, UpdateSourceTrigger=PropertyChanged}" 
+                                             Height="32"
+                                             Padding="10,0,10,0"
+                                             FontSize="12"
+                                             Foreground="#1A1F36"
+                                             VerticalContentAlignment="Center"
+                                             BorderBrush="#E0E8F0"
+                                             BorderThickness="1"/>
+                                </StackPanel>
+
+                                <Button Content="Setzen" 
+                                        Style="{StaticResource SettingsButtonStyle}"
+                                        Command="{Binding SetInvoiceStartNumber}" 
+                                        VerticalAlignment="Bottom"
+                                        Height="32"
+                                        Padding="12,8,12,8"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Startnummer für zukünftige Rechnungen" 
+                                       FontSize="11"
+                                       Foreground="#8A96A8"
+                                       Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>

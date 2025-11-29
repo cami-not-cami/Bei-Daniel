@@ -3,112 +3,99 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:local="clr-namespace:Bei_Daniel"
+        xmlns:local="clr-namespace:Bei_Daniel"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Bei Daniel"
         Height="800"
         Width="1200"
         WindowStyle="SingleBorderWindow"
         Icon="/Helpers/Icons/BeiDanielLogo.png"
-AllowsTransparency="False"
-            
+        AllowsTransparency="False"
         WindowStartupLocation="CenterScreen">
 
-    <!--// Background Grid //-->
+    <Window.Resources>
+        <Style x:Key="MenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="16,14,16,14"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <TextBlock Text="{TemplateBinding Header}" 
+                                       Foreground="{TemplateBinding Foreground}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1F4D7F"/>
+                                <Setter Property="Foreground" Value="#4DB8FF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#0A2A4F"/>
+                                <Setter Property="Foreground" Value="#66D9FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
-    <Grid Background="#23262B" ShowGridLines="True">
-        <StackPanel Background="#2E333A"
-                    Width="215"
-                    Orientation="Vertical"
-                    HorizontalAlignment="Left">
+    <Grid Background="#F8F9FA">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <!--// Channel Name //-->
+        <!-- Sidebar with Gradient -->
+        <Border Grid.Column="0" Background="#0D1B2A" BorderThickness="0,0,1,0" BorderBrush="#0A2A4F">
+            <StackPanel Orientation="Vertical">
 
-            <Grid Height="50"
-                  VerticalAlignment="Top"
-                  Margin="0,30,0,0">
+                <!-- Logo/Branding Section with Accent -->
+                <Border Padding="20,30,20,30" BorderThickness="0,0,0,2" BorderBrush="#D61734">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="Bei Daniel" 
+                                   Foreground="#66D9FF"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,6"/>
+                        <TextBlock Text="🍎 Obst und Gemüse" 
+                                   Foreground="#A0BFFF"
+                                   FontSize="12"
+                                   TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
 
-                <Border Background="#D61734"
-                        Height="25"
-                        CornerRadius="3,0,0,3"
-                        Width="6"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Right" />
+                <!-- Navigation Menu -->
+                <StackPanel Orientation="Vertical" Margin="0,30,0,0">
+                    <MenuItem Header="🏠 Home"
+                              Style="{StaticResource MenuItemStyle}"
+                              Click="MenuItem_Click"/>
 
-                <TextBlock Text="Obst und Gemüse Bei Daniel"
-                           Foreground="#FFFFFF"
-                           FontFamily="Fonts/#Orbitron Medium"
-                           FontSize="16"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center" />
-                
+                    <MenuItem Header="⚙ Einstellungen"
+                              Style="{StaticResource MenuItemStyle}"
+                              Click="MenuItem_Click_1"/>
+                </StackPanel>
 
-            </Grid>
+                <!-- Bottom accent bar -->
+                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,30">
+                    <Rectangle Height="3" Fill="#D61734" Margin="20,0,20,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
 
-            <!--// Main Menu //-->
-
-            <Menu Height="450"
-                  Background="Transparent"
-                  Margin="0,40,0,0">
-
-                <Menu.ItemsPanel>
-
-                    <ItemsPanelTemplate>
-
-                        <VirtualizingStackPanel Orientation="Vertical" />
-
-                    </ItemsPanelTemplate>
-
-                </Menu.ItemsPanel>
-
-                <!--// Main Menu - Home //-->
-
-                <MenuItem Header="Home"
-                          Template="{StaticResource Menu_Template}" Click="MenuItem_Click">
-
-                    <!--<MenuItem.Icon>
-
-                            <Image Source="Assets/img_home.png"
-                               Stretch="None" />
-
-                        </MenuItem.Icon>-->
-
-                </MenuItem>
-
-                <!--// Main Menu - History //-->
-
-                <!--<MenuItem Header="History"
-                          Template="{StaticResource Menu_Template}">
-
-                    --><!--<MenuItem.Icon>
-
-                            <Image Source="Assets/img_history.png"
-                               Stretch="None" />
-
-                        </MenuItem.Icon>--><!--
-
-                </MenuItem>-->
-
-                <!--// Main Menu - Settings //-->
-
-                <MenuItem Header="Settings"
-                          Template="{StaticResource Menu_SubMenu_Template}" Click="MenuItem_Click_1">
-
-                    <!--<MenuItem.Icon>
-
-                            <Image Source="Assets/img_setting.png"
-                               Stretch="None" />
-
-                        </MenuItem.Icon>-->
-
-
-                </MenuItem>
-            </Menu>
-
-        </StackPanel>
-        <Frame Name="MainFrame" Visibility="Visible" Grid.Row="1" Grid.Column="1" Margin="235,0,-3,0"/>
-
-
+        <!-- Main Content Area with subtle gradient background -->
+        <Border Grid.Column="1" Background="#F8F9FA">
+            <Frame Name="MainFrame" 
+                   Visibility="Visible" 
+                   NavigationUIVisibility="Hidden"/>
+        </Border>
     </Grid>
-
 </Window>

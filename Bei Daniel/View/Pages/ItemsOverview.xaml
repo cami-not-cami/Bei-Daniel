@@ -6,176 +6,248 @@
       xmlns:viewmodel="clr-namespace:Bei_Daniel.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ItemsOverview">
+      Title="ItemsOverview"
+      Background="#F8F9FA">
 
-    <Grid Margin="20">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Page Header with Restaurant Name -->
-        <TextBlock Text="{Binding RestaurantName}" 
-                   FontSize="25" FontWeight="Bold"
-                   Foreground="White"
-                   Margin="0,0,430,10"
-                   Grid.Row="0"/>
+        <!-- Header Section -->
+        <Border Grid.Row="0" Background="White" Padding="30,25,30,25" BorderThickness="0,0,0,1" BorderBrush="#E8ECEF">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="600,0,0,15">
-            <TextBlock Text="Gesamt: " 
-                       FontSize="20" 
-                       FontWeight="Bold" 
-                       Foreground="White"
-                       Margin="0,0,5,0"/>
-            <TextBlock Text="{Binding PageTotal, StringFormat=C,ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" 
-                       FontSize="25" 
-                       FontWeight="Bold" 
-                       Foreground="White"/>
-        </StackPanel>
+                <TextBlock Text="{Binding RestaurantName}" 
+                           FontSize="28" FontWeight="SemiBold"
+                           Foreground="#1A1F36"
+                           VerticalAlignment="Center"/>
+
+                <Border Grid.Column="1" Background="#EBF4FF" Padding="20,10,20,10">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Gesamt:" 
+                                   FontSize="14" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#5A6B7D"
+                                   Margin="0,0,12,0"/>
+                        <TextBlock Text="{Binding PageTotal, StringFormat=C,ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" 
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="#3366FF"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
 
         <!-- Orders DataGrid -->
-        <DataGrid x:Name="OrdersDataGrid"
-                  AutoGenerateColumns="False"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="None"
-                  CanUserAddRows="False"
-                  IsReadOnly="True"
-                  CanUserDeleteRows="False"
-                  CanUserResizeRows="False"
-                  RowHeight="40"
-                  AlternatingRowBackground="#F5F5F5"
-                  Background="White"
-                  BorderThickness="0"
-                  SelectionMode="Single"
-                  SelectionUnit="FullRow"
-                  HorizontalGridLinesBrush="#E0E0E0"
-                  VerticalGridLinesBrush="#E0E0E0"
-                  FontSize="14"
-                  Padding="5"
-                  ItemsSource="{Binding Orders}"
-                  RowHeaderWidth="0"
-                  Grid.Row="1"
-                  Margin="0,0,0,10">
+        <Border Grid.Row="1" Margin="30,20,30,20" Background="White" BorderThickness="1" BorderBrush="#E8ECEF">
+            <DataGrid x:Name="OrdersDataGrid"
+                      AutoGenerateColumns="False"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="None"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      CanUserDeleteRows="False"
+                      CanUserResizeRows="False"
+                      RowHeight="45"
+                      AlternatingRowBackground="Transparent"
+                      Background="White"
+                      BorderThickness="0"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow"
+                      FontSize="13"
+                      Padding="0"
+                      ItemsSource="{Binding Orders}"
+                      RowHeaderWidth="0"
+                      HorizontalGridLinesBrush="#E8ECEF"
+                      VerticalGridLinesBrush="#E8ECEF">
 
-            <!-- Header Style -->
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="#2C3E50"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontSize" Value="15"/>
-                    <Setter Property="FontWeight" Value="SemiBold"/>
-                    <Setter Property="Padding" Value="10,5"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
+                <!-- Header Style -->
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#F3F5F8"/>
+                        <Setter Property="Foreground" Value="#5A6B7D"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="15,12,15,12"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
 
-            <!-- Row Style -->
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="Cursor" Value="Hand"/>
-                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="Foreground" Value="#333"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#DCEAF7"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#3498DB"/>
-                            <Setter Property="Foreground" Value="White"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
+                <!-- Row Style -->
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Left" />
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="Foreground" Value="#1A1F36"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F3F5F8"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#EBF4FF"/>
+                                <Setter Property="Foreground" Value="#1A1F36"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
 
-            <!-- Columns -->
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Produkt" Binding="{Binding Product.Name}" Width="2*"/>
-                <DataGridTextColumn Header="Preis" Binding="{Binding ProductPrice, StringFormat=C,ConverterCulture='de-DE'}" Width="*"/>
-                <DataGridTextColumn Header="Anzahl" Binding="{Binding Amount}" Width="*"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding InLineTotal, StringFormat=C,ConverterCulture='de-DE'}" Width="*"/>
-                <DataGridTemplateColumn Header="Löschen" Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="🗑"
-                                    Width="35"
-                                    Height="30"
-                                    Background="#E74C3C"
-                                    Foreground="White"
-                                    FontWeight="Bold"
-                                    BorderThickness="0"
-                                    Cursor="Hand"
-                                    ToolTip="Löschen"
-                                    Command="{Binding DataContext.DeleteOrderCommand, 
-                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                    CommandParameter="{Binding}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                <!-- Columns -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Produkt" Binding="{Binding Product.Name}" Width="2*"/>
+                    <DataGridTextColumn Header="Preis" Binding="{Binding ProductPrice, StringFormat=C,ConverterCulture='de-DE'}" Width="1.2*"/>
+                    <DataGridTextColumn Header="Anzahl" Binding="{Binding Amount}" Width="*"/>
+                    <DataGridTextColumn Header="Total" Binding="{Binding InLineTotal, StringFormat=C,ConverterCulture='de-DE'}" Width="1.2*"/>
+                    <DataGridTemplateColumn Header="Aktion" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="✕" 
+                                        Width="32"
+                                        Height="32"
+                                        Background="#FFE7E7"
+                                        Foreground="#FF4444"
+                                        FontWeight="Bold"
+                                        FontSize="16"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        ToolTip="Löschen"
+                                        Margin="5,0,5,0"
+                                        Command="{Binding DataContext.DeleteOrderCommand, 
+                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="#FFE7E7"/>
+                                            <Setter Property="Foreground" Value="#FF4444"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#FF6666"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
 
         <!-- Input Section -->
-        <Border Grid.Row="2" Background="#F9F9F9" CornerRadius="10" Padding="15" BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
+        <Border Grid.Row="2" Background="White" Margin="30,0,30,30" Padding="25,25,25,25" BorderBrush="#E8ECEF" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
                 <!-- Product ComboBox -->
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Produkt" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox Width="200"
+                <StackPanel Margin="10,0,10,0" Width="200">
+                    <TextBlock Text="Produkt" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
+                    <ComboBox Height="38"
                               SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
                               Text="{Binding ProductInput, UpdateSourceTrigger=LostFocus}"
                               IsEditable="True"
                               IsTextSearchEnabled="True"
-                              ItemsSource="{Binding ProductsName}" />
-                </StackPanel>
-
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Anzahl" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <TextBox Width="100" Text="{Binding Amount}" />
+                              ItemsSource="{Binding ProductsName}" 
+                              Padding="12,0,12,0"
+                              FontSize="13"
+                              Foreground="#1A1F36"
+                              VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Quantity -->
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Einheit" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox Width="100" 
+                <StackPanel Margin="10,0,10,0" Width="110">
+                    <TextBlock Text="Anzahl" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
+                    <TextBox Height="38" 
+                             Text="{Binding Amount}"
+                             Padding="12,0,12,0"
+                             FontSize="13"
+                             Foreground="#1A1F36"
+                             VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Unit -->
+                <StackPanel Margin="10,0,10,0" Width="110">
+                    <TextBlock Text="Einheit" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
+                    <ComboBox Height="38"
                               SelectedItem="{Binding SelectedQT, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" 
-                              Background="{x:Null}" BorderBrush="{x:Null}" />
+                              Padding="12,0,12,0"
+                              FontSize="13"
+                              Foreground="#1A1F36"
+                              VerticalContentAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Preis €" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <TextBox Width="100"
-                             Text="{Binding Price,ConverterCulture='de-DE'}"  />
+                <!-- Price -->
+                <StackPanel Margin="10,0,10,0" Width="120">
+                    <TextBlock Text="Preis €" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
+                    <TextBox Height="38"
+                             Text="{Binding Price,ConverterCulture='de-DE'}"
+                             Padding="12,0,12,0"
+                             FontSize="13"
+                             Foreground="#1A1F36"
+                             VerticalContentAlignment="Center"/>
                 </StackPanel>
+
+                <!-- Separator -->
+                <Rectangle Width="1" Fill="#E8ECEF" Margin="10,0,10,0"/>
 
                 <!-- Buttons -->
-                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="10,0,0,0">
                     <Button Content="+" 
-                            Width="50" Height="35"
-                            Background="#3498DB" 
+                            Width="38" Height="38"
+                            Background="#3366FF" 
                             Foreground="White" 
-                            FontWeight="SemiBold"
+                            FontWeight="Bold"
+                            FontSize="18"
                             BorderThickness="0"
-                           
-                            Command="{Binding AddOrderCommand}" />
+                            Cursor="Hand"
+                            ToolTip="Hinzufügen"
+                            Margin="0,0,10,0"
+                            Command="{Binding AddOrderCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#3366FF"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#0055DD"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                     <Button Content="🖨 Drucken" 
-                            Width="120" Height="35"
-                            Margin="10,0,0,0"
+                            Width="120" Height="38"
                             Background="#2ECC71" 
                             Foreground="White" 
                             FontWeight="SemiBold"
+                            FontSize="13"
                             BorderThickness="0"
-                           
                             Cursor="Hand"
                             ToolTip="Seite drucken"
-                            Command="{Binding PrintOrder}" />
+                            Command="{Binding PrintOrder}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#2ECC71"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#27AE60"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
             </StackPanel>
         </Border>

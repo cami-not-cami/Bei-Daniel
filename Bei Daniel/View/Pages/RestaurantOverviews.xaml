@@ -6,41 +6,88 @@
       xmlns:local="clr-namespace:Bei_Daniel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="RestaurantOverviews">
+      Title="RestaurantOverviews"
+      Background="#F8F9FA">
 
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Restaurants}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <local:RestaurantCard Padding="5,0,0,5"  Restaurant="{Binding}" 
-                     NavigateCommand="{Binding DataContext.NavigateToItemsCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
-                       
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <!-- Header with Filter -->
+        <Border Grid.Row="0" Background="White" Padding="30,20,30,20" BorderThickness="0,0,0,1" BorderBrush="#E8ECEF">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <ComboBox Grid.Column="4" 
-            ItemsSource="{Binding AvailableTypes}"
-              SelectedItem="{Binding SelectedType, Mode=TwoWay}"
-           IsEditable="False" VerticalContentAlignment="Center" Margin="0,10,10,0"
-             >
-                
-            </ComboBox>
+                <TextBlock Text="Restaurants" 
+                           FontSize="28" 
+                           FontWeight="SemiBold"
+                           Foreground="#1A1F36"
+                           VerticalAlignment="Center"/>
 
-        </Grid>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Kategorie:" 
+                               FontSize="13" 
+                               FontWeight="SemiBold"
+                               Foreground="#5A6B7D"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"/>
+                    <ComboBox Width="180"
+          Height="36"
+          ItemsSource="{Binding AvailableTypes}"
+          SelectedItem="{Binding SelectedType, Mode=TwoWay}"
+          IsEditable="False" 
+          Padding="12,0,12,0"
+          FontSize="13"
+          Foreground="#1A1F36"
+          VerticalContentAlignment="Center">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="BorderBrush" Value="#3366FF"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                                <Setter Property="Foreground" Value="#1A1F36"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="Padding" Value="12,8,12,8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#EBF4FF"/>
+                                        <Setter Property="BorderBrush" Value="#3366FF"/>
+                                    </Trigger>
+                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                        <Setter Property="Background" Value="#EBF4FF"/>
+                                        <Setter Property="BorderBrush" Value="#0055DD"/>
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Restaurants List -->
+        <Border Grid.Row="1" Background="#F8F9FA" Padding="30,20,30,20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding Restaurants}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:RestaurantCard Restaurant="{Binding}" 
+                                                  NavigateCommand="{Binding DataContext.NavigateToItemsCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>

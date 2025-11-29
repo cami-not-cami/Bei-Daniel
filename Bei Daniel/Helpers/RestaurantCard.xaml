@@ -6,45 +6,95 @@
              xmlns:local="clr-namespace:Bei_Daniel"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="600">
-
-    <Border Background="WhiteSmoke" CornerRadius="20" Padding="10" SnapsToDevicePixels="True">
+    
+    <Border Padding="12,8,12,8" Margin="0,0,0,12">
         <Border.InputBindings>
-            <!-- Left mouse click anywhere on the card -->
             <MouseBinding Gesture="LeftClick"
                           Command="{Binding NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                           CommandParameter="{Binding Restaurant, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Border.InputBindings>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <!-- Outer border for shadow effect -->
+        <Border Background="White" Padding="20,15,20,15" BorderThickness="1" BorderBrush="#E0E8F0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.12" Direction="270"/>
+            </Border.Effect>
 
-            <!-- Restaurant Name + Address -->
-            <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-                <TextBlock Text="{Binding Name}" 
-                           FontSize="16" 
-                           FontWeight="Bold"/>
-                <TextBlock Text="{Binding Address}" 
-                           FontSize="14" 
-                           Foreground="Gray"/>
-            </StackPanel>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#F0F7FF"/>
+                            <Setter Property="BorderBrush" Value="#3366FF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
 
-            <!-- Arrow Button (kept for visual, still works if clicked) -->
-            <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
-                    Content="▶" 
-                    Background="{x:Null}" 
-                    BorderBrush="{x:Null}"
-                    FontSize="28" 
-                    Command="{Binding NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding Restaurant, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                    VerticalAlignment="Center"/>
-        </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left accent bar -->
+                <Rectangle Grid.Column="0" 
+                           Width="4" 
+                           Fill="#D61734"
+                           Margin="0,0,12,0"/>
+
+                <!-- Restaurant Info -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}" 
+                               FontSize="18" 
+                               FontWeight="Bold"
+                               Foreground="#1A1F36"
+                               Margin="0,0,0,6"/>
+                    <TextBlock Text="{Binding Address}" 
+                               FontSize="13" 
+                               Foreground="#5A6B7D"/>
+                </StackPanel>
+
+                <!-- Right arrow icon in circle -->
+                <Border Grid.Column="2" 
+                        Width="40" 
+                        Height="40" 
+                        Background="#EBF4FF"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="#EBF4FF"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#3366FF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <TextBlock Text="→" 
+                               FontSize="22" 
+                               Foreground="#3366FF"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#3366FF"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Border>
+            </Grid>
+        </Border>
     </Border>
 </UserControl>
