@@ -5,48 +5,146 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:viewmodel="clr-namespace:Bei_Daniel.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="ItemsOverview"
       Background="#F8F9FA">
 
+    <Page.Resources>
+        <Style x:Key="DatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E8ECEF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#1A1F36"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,8,10,8"/>
+            <Setter Property="Height" Value="36"/>
+        </Style>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Header Section -->
-        <Border Grid.Row="0" Background="White" Padding="30,25,30,25" BorderThickness="0,0,0,1" BorderBrush="#E8ECEF">
+        <Border Grid.Row="0" Background="White" Padding="40,30,40,30" BorderThickness="0,0,0,1" BorderBrush="#E8ECEF">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{Binding RestaurantName}" 
-                           FontSize="28" FontWeight="SemiBold"
-                           Foreground="#1A1F36"
-                           VerticalAlignment="Center"/>
+                <!-- Row 0: Restaurant Name, Print Month Button, Spacer, Date Picker -->
 
-                <Border Grid.Column="1" Background="#EBF4FF" Padding="20,10,20,10">
+                <!-- Restaurant Name -->
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           TextDecorations="Underline"
+                           Text="{Binding RestaurantName}" 
+                           FontSize="32" 
+                           FontWeight="Bold"
+                           Foreground="#1A1F36"
+                           VerticalAlignment="Center"
+                           Margin="0,0,40,0"/>
+
+                <!-- Print Month Button (Red) -->
+                <Button Grid.Row="0" Grid.Column="1"
+                        Content="🖨 Monat Drucken" 
+                        Height="36"
+                        Background="#E74C3C" 
+                        Foreground="White" 
+                        FontWeight="SemiBold"
+                        FontSize="13"
+                        BorderThickness="0"
+                        Padding="16,8,16,8"
+                        Cursor="Hand"
+                        ToolTip="Ganzen Monat drucken"
+                        VerticalAlignment="Center"
+                        Command="{Binding PrintMonthCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#E74C3C"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#C0392B"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Spacer -->
+                <TextBlock Grid.Row="0" Grid.Column="2"/>
+
+                <!-- Date Picker -->
+                <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,40,0">
+                    <TextBlock Text="Lieferdatum:" 
+                               FontSize="13" 
+                               FontWeight="SemiBold" 
+                               Foreground="#5A6B7D"
+                               VerticalAlignment="Center"
+                               Margin="0,0,12,0"/>
+                    <DatePicker Style="{StaticResource DatePickerStyle}"
+                                SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"
+                                Width="160"/>
+                </StackPanel>
+
+                <!-- Row 1: Total and Print Lieferschein Button -->
+
+                <!-- Total -->
+                <Border Grid.Row="1" Grid.Column="4" Background="#EBF4FF" Padding="20,12,20,12" VerticalAlignment="Center" Margin="0,20,0,0" >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Text="Gesamt:" 
-                                   FontSize="14" 
+                                   FontSize="20" 
                                    FontWeight="SemiBold" 
                                    Foreground="#5A6B7D"
                                    Margin="0,0,12,0"/>
                         <TextBlock Text="{Binding PageTotal, StringFormat=C,ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" 
-                                   FontSize="24" 
+                                   FontSize="20" 
                                    FontWeight="Bold" 
                                    Foreground="#3366FF"/>
                     </StackPanel>
                 </Border>
+
+                <!-- Print Lieferschein Button -->
+                <Button Grid.Row="0" Grid.Column="4"
+                        Content="🖨 Lieferschein Drucken" 
+                        Height="36"
+                        Background="#2ECC71" 
+                        Foreground="White" 
+                        FontWeight="SemiBold"
+                        FontSize="13"
+                        BorderThickness="0"
+                        Padding="16,8,16,8"
+                        Cursor="Hand"
+                        ToolTip="Lieferschein drucken"
+                        VerticalAlignment="Center"
+                        Margin="0,20,0,20"
+                        Command="{Binding PrintOrder}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#2ECC71"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#27AE60"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
         </Border>
 
         <!-- Orders DataGrid -->
-        <Border Grid.Row="1" Margin="30,20,30,20" Background="White" BorderThickness="1" BorderBrush="#E8ECEF">
+        <Border Grid.Row="1" Margin="40,30,40,30" Background="White" BorderThickness="1" BorderBrush="#E8ECEF">
             <DataGrid x:Name="OrdersDataGrid"
                       AutoGenerateColumns="False"
                       HeadersVisibility="Column"
@@ -55,7 +153,7 @@
                       IsReadOnly="True"
                       CanUserDeleteRows="False"
                       CanUserResizeRows="False"
-                      RowHeight="45"
+                      RowHeight="50"
                       AlternatingRowBackground="Transparent"
                       Background="White"
                       BorderThickness="0"
@@ -73,9 +171,9 @@
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" Value="#F3F5F8"/>
                         <Setter Property="Foreground" Value="#5A6B7D"/>
-                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="FontSize" Value="12"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Padding" Value="15,12,15,12"/>
+                        <Setter Property="Padding" Value="18,14,18,14"/>
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
                     </Style>
@@ -113,8 +211,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="✕" 
-                                        Width="32"
-                                        Height="32"
+                                        Width="36"
+                                        Height="36"
                                         Background="#FFE7E7"
                                         Foreground="#FF4444"
                                         FontWeight="Bold"
@@ -122,7 +220,7 @@
                                         BorderThickness="0"
                                         Cursor="Hand"
                                         ToolTip="Löschen"
-                                        Margin="5,0,5,0"
+                                        Margin="8,0,8,0"
                                         Command="{Binding DataContext.DeleteOrderCommand, 
                                                           RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                         CommandParameter="{Binding}">
@@ -147,108 +245,84 @@
         </Border>
 
         <!-- Input Section -->
-        <Border Grid.Row="2" Background="White" Margin="30,0,30,30" Padding="25,25,25,25" BorderBrush="#E8ECEF" BorderThickness="1">
+        <Border Grid.Row="2" Background="White" Margin="40,0,40,40" Padding="30,24,30,24" BorderBrush="#E8ECEF" BorderThickness="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <!-- Product ComboBox -->
-                <StackPanel Margin="10,0,10,0" Width="200">
+                <StackPanel Margin="12,0,12,0" Width="200">
                     <TextBlock Text="Produkt" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
-                    <ComboBox Height="38"
+                    <ComboBox Height="36"
                               SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
                               Text="{Binding ProductInput, UpdateSourceTrigger=LostFocus}"
                               IsEditable="True"
                               IsTextSearchEnabled="True"
                               ItemsSource="{Binding ProductsName}" 
                               Padding="12,0,12,0"
-                              FontSize="13"
+                              FontSize="12"
                               Foreground="#1A1F36"
                               VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Quantity -->
-                <StackPanel Margin="10,0,10,0" Width="110">
+                <StackPanel Margin="12,0,12,0" Width="110">
                     <TextBlock Text="Anzahl" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
-                    <TextBox Height="38" 
+                    <TextBox Height="36" 
                              Text="{Binding Amount}"
                              Padding="12,0,12,0"
-                             FontSize="13"
+                             FontSize="12"
                              Foreground="#1A1F36"
                              VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Unit -->
-                <StackPanel Margin="10,0,10,0" Width="110">
+                <StackPanel Margin="12,0,12,0" Width="110">
                     <TextBlock Text="Einheit" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
-                    <ComboBox Height="38"
+                    <ComboBox Height="36"
                               SelectedItem="{Binding SelectedQT, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" 
                               Padding="12,0,12,0"
-                              FontSize="13"
+                              FontSize="12"
                               Foreground="#1A1F36"
                               VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Price -->
-                <StackPanel Margin="10,0,10,0" Width="120">
+                <StackPanel Margin="12,0,12,0" Width="130">
                     <TextBlock Text="Preis €" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#5A6B7D" FontSize="12"/>
-                    <TextBox Height="38"
+                    <TextBox Height="36"
                              Text="{Binding Price,ConverterCulture='de-DE'}"
                              Padding="12,0,12,0"
-                             FontSize="13"
+                             FontSize="12"
                              Foreground="#1A1F36"
                              VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Separator -->
-                <Rectangle Width="1" Fill="#E8ECEF" Margin="10,0,10,0"/>
+                <Rectangle Width="1" Fill="#E8ECEF" Margin="12,0,12,0" Height="40"/>
 
-                <!-- Buttons -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="10,0,0,0">
-                    <Button Content="+" 
-                            Width="38" Height="38"
-                            Background="#3366FF" 
-                            Foreground="White" 
-                            FontWeight="Bold"
-                            FontSize="18"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            ToolTip="Hinzufügen"
-                            Margin="0,0,10,0"
-                            Command="{Binding AddOrderCommand}">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="#3366FF"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#0055DD"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-
-                    <Button Content="🖨 Drucken" 
-                            Width="120" Height="38"
-                            Background="#2ECC71" 
-                            Foreground="White" 
-                            FontWeight="SemiBold"
-                            FontSize="13"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            ToolTip="Seite drucken"
-                            Command="{Binding PrintOrder}">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="#2ECC71"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#27AE60"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
+                <!-- Add Button -->
+                <Button Content="+" 
+                        Width="40" Height="40"
+                        Background="#3366FF" 
+                        Foreground="White" 
+                        FontWeight="Bold"
+                        FontSize="18"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        ToolTip="Hinzufügen"
+                        Margin="12,0,0,0"
+                        Command="{Binding AddOrderCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#3366FF"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#0055DD"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </Border>
     </Grid>
