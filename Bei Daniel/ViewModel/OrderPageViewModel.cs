@@ -59,6 +59,23 @@ namespace Bei_Daniel.ViewModel
                 OnPropertyChanged(nameof(SelectedQT));
             }
         }
+
+        private DateTime? _selectedDate;
+        public DateTime? SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                if (_selectedDate == value)
+                    return;
+
+                _selectedDate = value;
+                OnPropertyChanged(nameof(SelectedDate));
+
+                // Optional: if you want to refresh lines/totals when date changes, uncomment:
+                // CalculateLines();
+            }
+        }
         private int _restaurantId;
         private readonly AppDbContext _appDbContext = MainViewModel._appDbContext;
         public ObservableCollection<Order> Orders { get; set; }
@@ -157,6 +174,7 @@ namespace Bei_Daniel.ViewModel
         public OrderPageViewModel(int restaurantId)
         {
             _restaurantId = restaurantId;
+            SelectedDate = DateTime.Today;
             LoadItemsForRestaurant(_restaurantId);
             ProductsName = _appDbContext.Products.Select(p => p.Name).ToList();
             Quantity = OrderUtils.QUANTITY_TYPES;
@@ -204,7 +222,7 @@ namespace Bei_Daniel.ViewModel
             var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
             var document = new ReceiptDocument
             {
-                DeliveryDate = "12/12/2024",
+                DeliveryDate = SelectedDate.ToString(),
                 CustomerAddress = RestaurantUtils.GetRestaurantAddressById(_restaurantId, _appDbContext),
                 CustomerName = RestaurantUtils.GetRestaurantNameById(_restaurantId, _appDbContext),
                 InvoiceNr = invoiceNumber,
