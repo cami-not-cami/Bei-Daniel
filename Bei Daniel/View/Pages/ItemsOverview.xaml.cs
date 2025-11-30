@@ -23,6 +23,10 @@ namespace Bei_Daniel.View.Pages
             this.DataContext = orderPageViewModel;
         }
 
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MonthyInvoiceOverview page = new MonthyInvoiceOverview(_restaurantId);
+            this.NavigationService.Navigate(page);
+        }
     }
 }

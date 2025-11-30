@@ -206,19 +206,20 @@ namespace Bei_Daniel.ViewModel
         {
             QuestPDF.Settings.License = LicenseType.Community;
             List<Order> orders = OrderUtils.GetAllUnsolvedOrders(_restaurantId, _appDbContext).ToList();
-
-            //List<Order> allOrders = OrderUtils.GetOrders(_restaurantId).ToList();
-
+            orders = ProductUtils.BundleIdenticalProducts(new ObservableCollection<Order>(orders)).ToList();
             List<InvoiceUtils.Product> products = new List<InvoiceUtils.Product>();
             foreach (var order in orders)
             {
                 InvoiceUtils.Product product = new InvoiceUtils.Product();
                 product.ProductName = order.Product.Name;
-                product.Quantity = order.Amount.ToString() + " " + SelectedQT;
+                product.ProductQuantityType = order.ProductQuantityType;
+                product.Quantity = order.Amount.ToString() + " " + order.ProductQuantityType;
                 product.UnitPrice = order.ProductPrice;
                 product.Total = order.ProductPrice * order.Amount;
                 products.Add(product);
             }
+
+            products = products.OrderBy(p => p.ProductName).ToList();
             var filePath = RestaurantUtils.generateRestaurantFilePath(_restaurantId, _appDbContext);
             var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
             var document = new ReceiptDocument
@@ -247,6 +248,7 @@ namespace Bei_Daniel.ViewModel
             order.ProductPrice = Price;
             order.Data = DateTime.Now;
             order.Solved = false;
+            order.ProductQuantityType = SelectedQT;
             //order.CompletedAmount = Amount.ToString() + SelectedQT;
 
             if (order.ProductId != 0 && Amount != 0 && Price != 0)
@@ -277,7 +279,8 @@ namespace Bei_Daniel.ViewModel
 
             if (result == MessageBoxResult.Yes)
             {
-                OrderUtils.SolveOrder(order.Id, _appDbContext);
+                //OrderUtils.SolveOrder(order.Id, _appDbContext); why?
+                OrderUtils.RemoveOrderById(order.Id, _appDbContext);
                 Orders.Remove(order);
                 PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
             }

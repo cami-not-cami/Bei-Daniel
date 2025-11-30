@@ -68,7 +68,7 @@
                         Cursor="Hand"
                         ToolTip="Ganzen Monat drucken"
                         VerticalAlignment="Center"
-                        Command="{Binding PrintMonthCommand}">
+                        Command="{Binding PrintMonthCommand}" Click="Button_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Background" Value="#E74C3C"/>

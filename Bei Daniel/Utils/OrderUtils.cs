@@ -105,6 +105,16 @@ namespace Bei_Daniel.Utils
             return total;
         }
 
+        public static void RemoveOrderById(long id, AppDbContext context)
+        {
+            var order = context.Orders.Find(id);
+            if (order != null)
+            {
+                context.Orders.Remove(order);
+                context.SaveChanges();
+            }
+        }
+
 
 
     }

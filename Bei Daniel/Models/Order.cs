@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bei_Daniel.Models;
 
@@ -24,4 +26,7 @@ public partial class Order
     public virtual Product Product { get; set; } = null!;
 
     public virtual Restaurant Restaurant { get; set; } = null!;
+
+    [NotMapped]
+    public  double InLineTotal { get; set; }
 }

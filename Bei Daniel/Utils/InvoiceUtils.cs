@@ -1,8 +1,10 @@
-﻿
+﻿using Bei_Daniel.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 
 namespace Bei_Daniel.Utils
 {
@@ -13,9 +15,13 @@ namespace Bei_Daniel.Utils
         public class Product
         {
             public string Quantity { get; set; }
+
+            public string ProductQuantityType { get; set; }
             public string ProductName { get; set; }
             public double UnitPrice { get; set; }
             public double Total { get; set; }
+
+
         }
 
         public class ReceiptDocument : IDocument
@@ -251,12 +257,48 @@ namespace Bei_Daniel.Utils
 
             }
         }
-        public static void etInvoiceNumber(int number)
-        {
-            var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
-            var invoiceFile = Path.Combine(folder, "invoice_counter.txt");
-            File.WriteAllText(invoiceFile, number.ToString());
 
+        internal static void GenerateMonthlyInvoicePdf(int restaurantId, DateOnly startDate, DateOnly endDate, Models.AppDbContext appDbContext)
+        {
+            QuestPDF.Settings.License = LicenseType.Community;
+            Restaurant restaurant = RestaurantUtils.GetRestaurantById(restaurantId, appDbContext);
+            var orders = OrderUtils.GetOrders(restaurantId, startDate, endDate);
+
+            // Bundle identical products
+            orders = ProductUtils.BundleIdenticalProducts(orders);
+
+            // Build product list
+            List<InvoiceUtils.Product> products = new List<InvoiceUtils.Product>();
+            foreach (var order in orders)
+            {
+                var product = new InvoiceUtils.Product
+                {
+                    ProductName = order.Product?.Name ?? string.Empty,
+                    ProductQuantityType = order.ProductQuantityType, // keep type separately if needed later
+                    Quantity = $"{order.Amount} {order.ProductQuantityType}", // correct usage
+                    UnitPrice = order.ProductPrice,
+                    Total = order.ProductPrice * order.Amount
+                };
+                products.Add(product);
+            }
+
+            // Apply sorting (store the result)
+            products = products.OrderBy(p => p.ProductName).ToList();
+
+            var filePath = RestaurantUtils.generateRestaurantFilePath(restaurantId, startDate, endDate, appDbContext);
+            var invoiceNumber = InvoiceUtils.GetInvoiceNumber();
+            var document = new ReceiptDocument
+            {
+                CustomerAddress = restaurant.Address,
+                CustomerName = restaurant.Name,
+                InvoiceNr = invoiceNumber,
+                Products = products,
+                Netto = OrderUtils.GetOrderTotal(restaurantId, startDate, endDate),
+                DeliveryDate = $"{startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}"
+            };
+            document.GeneratePdf(filePath);
+            MessageBox.Show($"Receipt saved to: {filePath}");
         }
+
     }
 }

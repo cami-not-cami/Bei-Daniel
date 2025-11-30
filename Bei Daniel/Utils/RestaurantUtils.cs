@@ -96,6 +96,33 @@ namespace Bei_Daniel.Utils
 
             return filePath;
         }
+
+        public static string generateRestaurantFilePath(long restaurantId, DateOnly startDate, DateOnly endDate,  AppDbContext context)
+        {
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            var restaurantName = RestaurantUtils.GetRestaurantNameById(restaurantId, context) ?? $"restaurant_{restaurantId}";
+            var restaurantFolderName = SanitizeForFileName(restaurantName);
+            var restaurantFolderPath = Path.Combine(desktopPath, "restaurants", restaurantFolderName);
+            Directory.CreateDirectory(restaurantFolderPath);
+            var normalizeStartDate = startDate.ToString("dd_MM_yyyy");
+            var normalizeEndDate = endDate.ToString("dd_MM_yyyy");
+            var datePart = "STARTING_" + normalizeStartDate + "TO_" + normalizeEndDate;
+
+            var baseFileName = $"Bestellung_{restaurantFolderName}_{datePart}";
+            var fileName = baseFileName + ".pdf";
+            var filePath = Path.Combine(restaurantFolderPath, fileName);
+
+            int counter = 1;
+            while (File.Exists(filePath))
+            {
+                fileName = $"{baseFileName}({counter}).pdf";
+                filePath = Path.Combine(restaurantFolderPath, fileName);
+                counter++;
+            }
+
+            return filePath;
+        }
         public static string GetRestaurantAddressById(long id, AppDbContext context)
         {
             var restaurant = context.Restaurants.Find(id);
@@ -104,6 +131,12 @@ namespace Bei_Daniel.Utils
                 return restaurant.Address;
             }
             return null;
+        }
+
+        public static Restaurant GetRestaurantById(long id, AppDbContext context)
+        {
+            var restaurant = context.Restaurants.Find(id);
+            return restaurant;
         }
     }
 }
