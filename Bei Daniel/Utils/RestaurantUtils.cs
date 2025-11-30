@@ -138,5 +138,41 @@ namespace Bei_Daniel.Utils
             var restaurant = context.Restaurants.Find(id);
             return restaurant;
         }
+
+        public static void UpdateRestaurant(long id, AppDbContext context, string name, string address, string type)
+        {
+            var restaurant = context.Restaurants.Find(id);
+            if (restaurant != null)
+            {
+                restaurant.Name = name;
+                restaurant.Address = address;
+                restaurant.Type = type;
+                context.SaveChanges();
+            }
+        }
+        public static void CreateRestaurant(AppDbContext context, string name, string adress, string type)
+        {
+            var restaurant = new Restaurant
+            {
+                Name = name,
+                Address = adress,
+                Type = type
+            };
+            context.Restaurants.Add(restaurant);
+            context.SaveChanges();
+
+        }
+
+        public static void DeleteRestaurant(long restaurantId, AppDbContext context)
+        {
+            Restaurant restaurant = context.Restaurants.Find(restaurantId);
+
+            if (restaurant != null)
+            {
+                context.Remove(restaurant);
+                context.SaveChanges();
+            }
+            
+        }
     }
 }

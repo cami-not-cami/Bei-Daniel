@@ -50,7 +50,7 @@ namespace Bei_Daniel.ViewModel
         }
         private void LoadRestaurants()
         {
-            if (string.IsNullOrEmpty(SelectedType))
+            if (string.IsNullOrEmpty(SelectedType) || SelectedType == "All")
             {
                 Restaurants = new ObservableCollection<Restaurant>(_appDbContext.Restaurants.ToList());
             }

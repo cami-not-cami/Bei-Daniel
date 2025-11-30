@@ -56,5 +56,10 @@ namespace Bei_Daniel
             MainFrame.Content = page;
 
         }
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            ClientManagerOverview page = new ClientManagerOverview();
+            MainFrame.Content = page;
+        }
     }
 }

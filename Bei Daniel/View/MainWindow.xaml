@@ -82,7 +82,10 @@
                     <MenuItem Header="⚙ Einstellungen"
                               Style="{StaticResource MenuItemStyle}"
                               Click="MenuItem_Click_1"/>
-                </StackPanel>
+                    <MenuItem Header="🛒 Restaurant Manager"
+                              Style="{StaticResource MenuItemStyle}"
+                              Click="MenuItem_Click_2"/>    
+                </StackPanel>   
 
                 <!-- Bottom accent bar -->
                 <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,30">
