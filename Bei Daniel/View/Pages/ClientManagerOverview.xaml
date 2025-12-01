@@ -7,8 +7,151 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ClientManagerOverview">
+    <Page.Resources>
+        <!-- TextBox Style -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E8ECEF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#1A1F36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,10,12,10"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E8ECEF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#1A1F36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,10,12,10"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Button Style -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#3366FF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Padding" Value="24,0,24,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0055DD"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#CCCCCC"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#E8ECEF"/>
+            <Setter Property="Foreground" Value="#5A6B7D"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D1D5DB"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" Padding="40,30,40,30" BorderThickness="0,0,0,1" BorderBrush="#E8ECEF">
+            <TextBlock Text="{Binding PageTitle}" 
+                       FontSize="28" 
+                       FontWeight="Bold"
+                       Foreground="#1A1F36"/>
+        </Border>
+
+        <!-- Form Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Border Background="White" 
+                    Margin="40,40,40,40" 
+                    Padding="40" 
+                    BorderThickness="1" 
+                    BorderBrush="#E8ECEF"
+                    MaxWidth="600"
+                    HorizontalAlignment="Center">
+                <StackPanel>
+                    <!-- Name Field -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="Name *" 
+                                   FontWeight="SemiBold" 
+                                   FontSize="13"
+                                   Margin="0,0,0,8" 
+                                   Foreground="#5A6B7D"/>
+                        <TextBox Style="{StaticResource ModernTextBox}"
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Geben Sie den Namen des Restaurants ein"/>
+                    </StackPanel>
+
+                    <!-- Address Field -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="Adresse *" 
+                                   FontWeight="SemiBold" 
+                                   FontSize="13"
+                                   Margin="0,0,0,8" 
+                                   Foreground="#5A6B7D"/>
+                        <TextBox Style="{StaticResource ModernTextBox}"
+                                 Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Geben Sie die Adresse des Restaurants ein"/>
+                    </StackPanel>
+
+                    <!-- Type Field -->
+                    <StackPanel Margin="0,0,0,32">
+                        <TextBlock Text="Typ *" 
+                                   FontWeight="SemiBold" 
+                                   FontSize="13"
+                                   Margin="0,0,0,8" 
+                                   Foreground="#5A6B7D"/>
+                        <ComboBox Style="{StaticResource ModernComboBox}"
+                                  SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding RestaurantTypes}"
+                                  ToolTip="Wählen Sie den Typ des Restaurants"/>
+                    </StackPanel>
+
+                    <!-- Required Fields Note -->
+                    <TextBlock Text="* Pflichtfelder" 
+                               FontSize="12" 
+                               FontStyle="Italic"
+                               Foreground="#9CA3AF"
+                               Margin="0,0,0,24"/>
+
+                    <!-- Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="{Binding SaveButtonText}" 
+                                Style="{StaticResource PrimaryButton}"
+                                Command="{Binding SaveCommand}"
+                                Width="180"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -11,22 +11,25 @@ namespace Bei_Daniel.View.Pages
     /// </summary>
     public partial class ItemsOverview : Page
     {
-     private OrderPageViewModel orderPageViewModel;
-        private int _restaurantId;
+        private readonly int _restaurantId;
 
         public ItemsOverview(int restId)
         {
             InitializeComponent();
             _restaurantId = restId;
 
-            orderPageViewModel = new OrderPageViewModel(restId);
-            this.DataContext = orderPageViewModel;
+            DataContext = new OrderPageViewModel(restId);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MonthyInvoiceOverview page = new MonthyInvoiceOverview(_restaurantId);
             this.NavigationService.Navigate(page);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

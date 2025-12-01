@@ -8,6 +8,9 @@ namespace Bei_Daniel.Utils
 {
     internal class RestaurantUtils
     {
+        public static ObservableCollection<string> RESTAURANT_TYPES = new ObservableCollection<string> { "Restaurant", "Privat", "Pizzeria"};
+
+        public static ObservableCollection<string> RESTAURANT_SORTING_TYPES = new ObservableCollection<string> { "Restaurant", "Privat", "Pizzeria", "Alle" };
         public static ObservableCollection<Restaurant> GetRestaurants(AppDbContext context)
         {
             ObservableCollection<Restaurant> restaurants = new ObservableCollection<Restaurant>();

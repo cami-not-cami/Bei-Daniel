@@ -41,8 +41,7 @@ namespace Bei_Daniel.ViewModel
             _appDbContext = new AppDbContext();
             Restaurants = RestaurantUtils.GetRestaurants(_appDbContext);
             // Fill ComboBox with distinct types from DB
-            AvailableTypes = new ObservableCollection<string>(
-                _appDbContext.Restaurants.Select(r => r.Type).Distinct().ToList());
+            AvailableTypes = RestaurantUtils.RESTAURANT_SORTING_TYPES;
             NavigateToItemsCommand = new RelayCommand<Restaurant>(NavigateToItems);
 
             // Default load (first type or all)
@@ -50,7 +49,7 @@ namespace Bei_Daniel.ViewModel
         }
         private void LoadRestaurants()
         {
-            if (string.IsNullOrEmpty(SelectedType) || SelectedType == "All")
+            if (string.IsNullOrEmpty(SelectedType) || SelectedType == "Alle")
             {
                 Restaurants = new ObservableCollection<Restaurant>(_appDbContext.Restaurants.ToList());
             }

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Bei_Daniel.Helpers;
 using Bei_Daniel.Models;
 using Bei_Daniel.Utils;
+using Bei_Daniel.View.Pages;
 using DinnerBoxd.Helpers;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
@@ -78,7 +79,7 @@ namespace Bei_Daniel.ViewModel
             }
         }
         private int _restaurantId;
-        private readonly AppDbContext _appDbContext = MainViewModel._appDbContext;
+        private readonly AppDbContext _appDbContext = new AppDbContext();
         public ObservableCollection<Order> Orders { get; set; }
         private List<string> _productsName;
         public List<string> ProductsName
@@ -170,6 +171,7 @@ namespace Bei_Daniel.ViewModel
         public ICommand DeleteOrderCommand { get; set; }
 
         public ICommand PrintOrder { get; set; }
+        public ICommand EditRestaurantCommand { get; set; }
 
 
         public OrderPageViewModel(int restaurantId)
@@ -189,6 +191,15 @@ namespace Bei_Daniel.ViewModel
             PageTotal = OrderUtils.GetOrderTotalWith10Percent(_restaurantId);
 
             DeleteOrderCommand = new RelayCommand<Order>(DeleteOrder);
+            EditRestaurantCommand = new RelayCommand(EditRestaurant);
+        }
+
+        private void EditRestaurant()
+        {
+            if (Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.MainFrame.Navigate(new ClientManagerOverview(_restaurantId));
+            }
         }
 
         private void LoadItemsForRestaurant(long restaurantId)
