@@ -38,12 +38,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Row 0: Restaurant Name, Print Month Button, Spacer, Date Picker -->
+                <!-- Row 0: Restaurant Name, Edit Button, Spacer, Date Picker, Print Lieferschein Button -->
 
                 <!-- Restaurant Name -->
                 <TextBlock Grid.Row="0" Grid.Column="0"
@@ -53,47 +53,23 @@
                            FontWeight="Bold"
                            Foreground="#1A1F36"
                            VerticalAlignment="Center"
-                           Margin="0,0,40,0"/>
+                           Margin="0,0,30,0"/>
 
-                <!-- Print Month Button (Red) -->
+                <!-- Edit Button -->
                 <Button Grid.Row="0" Grid.Column="1"
-                        Content="🖨 Monat Drucken" 
+                        Content="✏️ Edit"
+                        Width="100"
                         Height="36"
-                        Background="#E74C3C" 
+                        Background="#3366FF" 
                         Foreground="White" 
                         FontWeight="SemiBold"
                         FontSize="13"
                         BorderThickness="0"
                         Padding="16,8,16,8"
                         Cursor="Hand"
-                        ToolTip="Ganzen Monat drucken"
+                        ToolTip="Restaurant bearbeiten"
                         VerticalAlignment="Center"
-                        Command="{Binding PrintMonthCommand}" Click="Button_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="#E74C3C"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#C0392B"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Grid.Row="0" Grid.Column="2"
-        Content="✏️ Edit" 
-        Height="36"
-        Background="#3366FF" 
-        Foreground="White" 
-        FontWeight="SemiBold"
-        FontSize="13"
-        BorderThickness="0"
-        Padding="16,8,16,8"
-        Cursor="Hand"
-        ToolTip="Restaurant bearbeiten"
-        VerticalAlignment="Center"
-        Margin="12,0,0,0"
-        Command="{Binding EditRestaurantCommand}" Click="Button_Click_1">
+                        Command="{Binding EditRestaurantCommand}" Click="Button_Click_1">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Background" Value="#3366FF"/>
@@ -106,7 +82,11 @@
                     </Button.Style>
                 </Button>
 
-                <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,40,0">
+                <!-- Spacer Column -->
+                <Border Grid.Row="0" Grid.Column="2"/>
+
+                <!-- Date Picker -->
+                <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
                     <TextBlock Text="Lieferdatum:" 
                                FontSize="13" 
                                FontWeight="SemiBold" 
@@ -119,23 +99,6 @@
                                 Language="de-DE"
                                 Width="160"/>
                 </StackPanel>
-
-                <!-- Row 1: Total and Print Lieferschein Button -->
-
-                <!-- Total -->
-                <Border Grid.Row="1" Grid.Column="4" Background="#EBF4FF" Padding="20,12,20,12" VerticalAlignment="Center" Margin="0,20,0,0" >
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Gesamt:" 
-                                   FontSize="20" 
-                                   FontWeight="SemiBold" 
-                                   Foreground="#5A6B7D"
-                                   Margin="0,0,12,0"/>
-                        <TextBlock Text="{Binding PageTotal, StringFormat=C,ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" 
-                                   FontSize="20" 
-                                   FontWeight="Bold" 
-                                   Foreground="#3366FF"/>
-                    </StackPanel>
-                </Border>
 
                 <!-- Print Lieferschein Button -->
                 <Button Grid.Row="0" Grid.Column="4"
@@ -150,7 +113,6 @@
                         Cursor="Hand"
                         ToolTip="Lieferschein drucken"
                         VerticalAlignment="Center"
-                        Margin="0,20,0,20"
                         Command="{Binding PrintOrder}">
                     <Button.Style>
                         <Style TargetType="Button">
@@ -163,6 +125,50 @@
                         </Style>
                     </Button.Style>
                 </Button>
+
+                <!-- Row 1: Print Month Button, Spacer, Total -->
+
+                <!-- Print Month Button (Red) -->
+                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        Content="🖨 Monat Drucken" 
+                        Height="36"
+                        Background="#E74C3C" 
+                        Foreground="White" 
+                        FontWeight="SemiBold"
+                        FontSize="13"
+                        BorderThickness="0"
+                        Padding="16,8,16,8"
+                        Cursor="Hand"
+                        ToolTip="Ganzen Monat drucken"
+                        VerticalAlignment="Center"
+                        Margin="0,15,0,0"
+                        Command="{Binding PrintMonthCommand}" Click="Button_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#E74C3C"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#C0392B"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Total -->
+                <Border Grid.Row="1" Grid.Column="4" Background="#EBF4FF" Padding="20,12,20,12" VerticalAlignment="Center" Margin="0,15,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Gesamt:" 
+                                   FontSize="20" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#5A6B7D"
+                                   Margin="0,0,12,0"/>
+                        <TextBlock Text="{Binding PageTotal, StringFormat=C,ConverterCulture='de-DE', UpdateSourceTrigger=PropertyChanged}" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="#3366FF"/>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Border>
 

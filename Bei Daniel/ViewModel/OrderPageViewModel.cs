@@ -238,7 +238,6 @@ namespace Bei_Daniel.ViewModel
                 DeliveryDate = DateOnly.FromDateTime(SelectedDate).ToShortDateString(),
                 CustomerAddress = RestaurantUtils.GetRestaurantAddressById(_restaurantId, _appDbContext),
                 CustomerName = RestaurantUtils.GetRestaurantNameById(_restaurantId, _appDbContext),
-                InvoiceNr = invoiceNumber,
                 Products = products,
                 Netto = OrderUtils.GetOrderTotal(_restaurantId),
             };
@@ -246,7 +245,6 @@ namespace Bei_Daniel.ViewModel
             RestaurantUtils.SolveResturantOrders(_restaurantId, _appDbContext);
             Orders.Clear();
             PageTotal = 0;
-            InvoiceUtils.IncrementInvoiceNumber();
             MessageBox.Show($"Receipt saved to: {filePath}");
         }
 
@@ -257,7 +255,7 @@ namespace Bei_Daniel.ViewModel
             order.ProductId = ProductUtils.GetProductIdFromName(SelectedProduct, _appDbContext);
             order.Amount = Amount;
             order.ProductPrice = Price;
-            order.Data = DateTime.Now;
+            order.Data = SelectedDate;
             order.Solved = false;
             order.ProductQuantityType = SelectedQT;
             //order.CompletedAmount = Amount.ToString() + SelectedQT;
